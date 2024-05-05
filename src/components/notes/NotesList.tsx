@@ -11,7 +11,7 @@ export default function NotesList() {
 	})
 
 	if (isLoading) return 'Loading'
-	console.log(data)
+	// console.log(data)
 
 	return (
 		<div className="h-full border-r w-80">

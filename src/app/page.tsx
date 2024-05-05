@@ -6,12 +6,12 @@ import { getNotes } from '@/actions/notesActions'
 
 export default function Home() {
 	return (
-		<PrefetchQuery queryFn={getNotes} queryKey={['notes']}>
-			<div className="h-full flex">
-				<SideNav />
+		<div className="h-full flex">
+			<SideNav />
+			<PrefetchQuery queryFn={getNotes} queryKey={['notes']}>
 				<NotesList />
-				<NoteContent />
-			</div>
-		</PrefetchQuery>
+			</PrefetchQuery>
+			<NoteContent />
+		</div>
 	)
 }

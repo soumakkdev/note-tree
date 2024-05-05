@@ -6,3 +6,7 @@ import { NotesResponse } from '@/lib/pb-types'
 export async function getNotes() {
 	return await pb.collection<NotesResponse>('notes').getFullList()
 }
+
+export async function getNote(noteId: string) {
+	return await pb.collection<NotesResponse>('notes').getOne(noteId)
+}
