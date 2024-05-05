@@ -1,3 +1,4 @@
+'use client'
 import React from 'react'
 import NoteEditor from './NoteEditor'
 import { Eye, PanelLeft, Star, Trash2 } from 'lucide-react'
