@@ -7,13 +7,13 @@ export default function NoteListItem({ note }: { note: NotesResponse }) {
 	const [currentNote, setCurrentNote] = useAtom(currentNoteAtom)
 	return (
 		<div
-			className={cn('p-4 border-b cursor-pointer', {
-				'bg-muted': currentNote === note.id,
+			className={cn('p-4 border border-transparent cursor-pointer rounded-xl hover:border-border hover:bg-muted', {
+				'!bg-primary-surface !border-primary ': currentNote === note.id,
 			})}
 			onClick={() => setCurrentNote(note.id)}
 		>
-			<p className="font-medium">{note.title}</p>
-			<p className="text-sm">Last updated on {formatDate(note.updated)}</p>
+			<p className="font-semibold mb-1">{note.title}</p>
+			<p className="text-xs text-muted-foreground">Last updated on {formatDate(note.updated)}</p>
 		</div>
 	)
 }
