@@ -1,27 +1,39 @@
 'use client'
-import React from 'react'
-import NoteListItem from './NoteListItem'
-import { useQuery } from '@tanstack/react-query'
-import { getNotes } from '@/actions/notesActions'
 import { PlusCircle, Search } from 'lucide-react'
-import { Tooltip } from '../ui/tooltip'
 import { Input } from '../ui/input'
+import { Tooltip } from '../ui/tooltip'
+import NoteListItem from './NoteListItem'
+import { useCreateNote, useNotes } from './Notes.query'
+import { useAtom, useSetAtom } from 'jotai'
+import { activeNoteAtom } from './notes.utils'
 
 export default function NotesList() {
-	const { data, isLoading, isError } = useQuery({
-		queryKey: ['notes'],
-		queryFn: getNotes,
-	})
+	const { mutate } = useCreateNote()
+	const [activeNote, setActiveNote] = useAtom(activeNoteAtom)
+	const { data: notesList, isLoading } = useNotes()
 
 	if (isLoading) return 'Loading'
-	// console.log(data)
+
+	function addNewNote() {
+		mutate(
+			{ title: 'Untitled' },
+			{
+				onSuccess: (data) => {
+					if (data?.id) {
+						setActiveNote(data.id)
+					}
+				},
+				onError: (err) => console.log(err),
+			}
+		)
+	}
 
 	return (
 		<div className="h-full border-r w-80">
 			<div className="p-4 flex items-center justify-between">
 				<h2 className="text-xl font-bold">All Notes</h2>
 				<Tooltip content="New Note">
-					<PlusCircle className="h-5 w-5 text-primary" />
+					<PlusCircle onClick={() => addNewNote()} className="h-5 w-5 text-primary" />
 				</Tooltip>
 			</div>
 			<div className="px-4">
@@ -29,7 +41,7 @@ export default function NotesList() {
 			</div>
 
 			<div className="p-4 space-y-2">
-				{data?.map((note) => (
+				{notesList?.items?.map((note) => (
 					<NoteListItem key={note.id} note={note} />
 				))}
 			</div>

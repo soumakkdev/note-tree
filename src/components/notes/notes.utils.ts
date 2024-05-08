@@ -1,3 +1,3 @@
 import { atom } from 'jotai'
 
-export const currentNoteAtom = atom<string | null>(null)
+export const activeNoteAtom = atom<string | null>(null)

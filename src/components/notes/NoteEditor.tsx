@@ -1,13 +1,12 @@
 'use client'
 
-import React, { useEffect, useState } from 'react'
 import '@blocknote/core/fonts/inter.css'
-import '@blocknote/react/style.css'
 import { BlockNoteView, useCreateBlockNote } from '@blocknote/react'
-import { Block } from '@blocknote/core'
+import '@blocknote/react/style.css'
+import { useEffect } from 'react'
 
-export default function NoteEditor({ initialValue }: { initialValue: string }) {
-	const [blocks, setBlocks] = useState<Block[]>([])
+export default function NoteEditor({ initialValue, onChange }: { initialValue: string; onChange: (data: string) => void }) {
+	// const [blocks, setBlocks] = useState<Block[]>([])
 
 	// Creates a new editor instance.
 	const editor = useCreateBlockNote()
@@ -26,9 +25,12 @@ export default function NoteEditor({ initialValue }: { initialValue: string }) {
 	return (
 		<BlockNoteView
 			editor={editor}
-			onChange={() => {
+			onChange={async () => {
 				// Saves the document JSON to state.
-				setBlocks(editor.document)
+				// setBlocks(editor.document)
+
+				const html = await editor.blocksToHTMLLossy(editor.document)
+				onChange(html)
 			}}
 			theme="light"
 		/>
