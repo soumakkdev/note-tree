@@ -5,7 +5,7 @@ import NotesList from '@/components/notes/NotesList'
 export default function Home() {
 	return (
 		<div className="h-full flex">
-			<SideNav />
+			{/* <SideNav /> */}
 			<NotesList />
 			<NoteContent />
 		</div>

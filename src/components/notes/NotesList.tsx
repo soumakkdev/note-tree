@@ -6,13 +6,12 @@ import NoteListItem from './NoteListItem'
 import { useCreateNote, useNotes } from './Notes.query'
 import { useAtom, useSetAtom } from 'jotai'
 import { activeNoteAtom } from './notes.utils'
+import { useHotkeys } from 'react-hotkeys-hook'
 
 export default function NotesList() {
 	const { mutate } = useCreateNote()
 	const [activeNote, setActiveNote] = useAtom(activeNoteAtom)
 	const { data: notesList, isLoading } = useNotes()
-
-	if (isLoading) return 'Loading'
 
 	function addNewNote() {
 		mutate(
@@ -27,6 +26,8 @@ export default function NotesList() {
 			}
 		)
 	}
+
+	if (isLoading) return 'Loading'
 
 	return (
 		<div className="h-full border-r w-80">
