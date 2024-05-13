@@ -1,8 +1,15 @@
 import { ListResponse, NotesRecord, NotesResponse } from '@/lib/pb-types'
 import axios from 'axios'
 
-export async function getNotes() {
-	const res = await axios.get('/api/collections/notes/records?expand=status')
+export async function getNotes({ searchQuery }: { searchQuery?: string }) {
+	const queryParams = new window.URLSearchParams()
+	queryParams.append('expand', 'status')
+
+	if (searchQuery) {
+		queryParams.append('filter', `title ~ '${searchQuery}'`)
+	}
+
+	const res = await axios.get(`/api/collections/notes/records?${queryParams.toString()}`)
 	return res.data as ListResponse<NotesResponse[]>
 }
 

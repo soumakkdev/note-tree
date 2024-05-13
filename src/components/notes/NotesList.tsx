@@ -1,17 +1,18 @@
 'use client'
+import { useAtom } from 'jotai'
 import { PlusCircle, Search } from 'lucide-react'
 import { Input } from '../ui/input'
+import { Skeleton } from '../ui/skeleton'
 import { Tooltip } from '../ui/tooltip'
 import NoteListItem from './NoteListItem'
 import { useCreateNote, useNotes } from './Notes.query'
-import { useAtom, useSetAtom } from 'jotai'
-import { activeNoteAtom } from './notes.utils'
-import { useHotkeys } from 'react-hotkeys-hook'
+import { activeNoteAtom, useNotesFilters } from './notes.utils'
 
 export default function NotesList() {
 	const { mutate } = useCreateNote()
 	const [activeNote, setActiveNote] = useAtom(activeNoteAtom)
 	const { data: notesList, isLoading } = useNotes()
+	const { handleSearch, searchTerm } = useNotesFilters()
 
 	function addNewNote() {
 		mutate(
@@ -27,8 +28,6 @@ export default function NotesList() {
 		)
 	}
 
-	if (isLoading) return 'Loading'
-
 	return (
 		<div className="h-full border-r w-80">
 			<div className="p-4 flex items-center justify-between">
@@ -37,14 +36,31 @@ export default function NotesList() {
 					<PlusCircle onClick={() => addNewNote()} className="h-5 w-5 text-primary" />
 				</Tooltip>
 			</div>
+
 			<div className="px-4">
-				<Input placeholder="Search notes" className="rounded-lg" startIcon={<Search className="h-4 w-4" />} />
+				<Input
+					value={searchTerm}
+					onChange={(e) => handleSearch(e.target.value)}
+					placeholder="Search notes"
+					className="rounded-lg"
+					startIcon={<Search className="h-4 w-4" />}
+				/>
 			</div>
 
 			<div className="p-4 space-y-2">
-				{notesList?.items?.map((note) => (
-					<NoteListItem key={note.id} note={note} />
-				))}
+				{isLoading ? (
+					<>
+						{Array.from(new Array(4).keys()).map((item) => (
+							<Skeleton className="h-20 w-full rounded-xl border" key={item} />
+						))}
+					</>
+				) : (
+					<>
+						{notesList?.items?.map((note) => (
+							<NoteListItem key={note.id} note={note} />
+						))}
+					</>
+				)}
 			</div>
 		</div>
 	)

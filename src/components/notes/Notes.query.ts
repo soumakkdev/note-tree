@@ -2,12 +2,13 @@ import { NotesRecord } from '@/lib/pb-types'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useSetAtom } from 'jotai'
 import { createNote, deleteNote, getNote, getNotes, updateNote } from './notes.data'
-import { activeNoteAtom } from './notes.utils'
+import { activeNoteAtom, useNotesFilters } from './notes.utils'
 
 export function useNotes() {
+	const { searchQuery } = useNotesFilters()
 	return useQuery({
-		queryKey: ['notes'],
-		queryFn: getNotes,
+		queryKey: ['notes', searchQuery],
+		queryFn: () => getNotes({ searchQuery }),
 	})
 }
 
