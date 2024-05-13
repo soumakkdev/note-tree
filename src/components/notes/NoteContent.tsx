@@ -6,15 +6,30 @@ import { Button } from '../ui/button'
 import NoteEditor from './NoteEditor'
 import { useNote, useUpdateNote } from './Notes.query'
 import { activeNoteAtom } from './notes.utils'
+import useAutosave from '@/lib/hooks/useAutosave'
+import { Check, Loader2 } from 'lucide-react'
 
 export default function NoteContent() {
 	const [activeNote, setActiveNote] = useAtom(activeNoteAtom)
 
 	const { mutate: updateNote, isPending } = useUpdateNote(activeNote)
-	const { data, isLoading: isNoteLoading } = useNote(activeNote)
+	const { data, isLoading: isNoteLoading, isFetching: isNoteFetching } = useNote(activeNote)
 	const [html, setHtml] = useState(data?.content)
 
+	console.log(html, data?.content, html === data?.content)
+
+	useAutosave(
+		() => {
+			if (html !== data?.content) {
+				updateNoteContent()
+			}
+		},
+		10 * 1000,
+		[html, data?.content]
+	)
+
 	function updateNoteContent() {
+		console.log('saving...')
 		updateNote(
 			{ content: html },
 			{
@@ -49,7 +64,20 @@ export default function NoteContent() {
 		<div className="flex-1 overflow-auto relative">
 			<div className="flex justify-between p-4 sticky top-0 z-10 bg-white border-b">
 				<h1 className="text-xl font-bold">{data?.title}</h1>
-				<div className="flex items-center space-x-4">{isPending ? <div>Saving...</div> : null}</div>
+
+				<div className="flex items-center space-x-4">
+					{html === data?.content ? (
+						<div className="flex items-center gap-1 text-sm font-medium text-green-500">
+							<Check className="h-4 w-4 " /> Saved
+						</div>
+					) : null}
+					{isPending ? (
+						<div className="text-sm font-medium flex items-center gap-1 text-muted-foreground">
+							<Loader2 className="h-4 w-4 animate-spin" />
+							Saving...
+						</div>
+					) : null}
+				</div>
 			</div>
 			<div className="max-w-4xl mx-auto my-6">
 				<NoteEditor initialValue={data?.content} onChange={(data) => setHtml(data)} />

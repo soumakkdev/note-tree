@@ -16,9 +16,7 @@ export default function NoteEditor({ initialValue, onChange }: { initialValue: s
 			const blocks = await editor.tryParseHTMLToBlocks(initialValue)
 			editor.replaceBlocks(editor.document, blocks)
 		}
-		if (initialValue) {
-			loadInitialHTML()
-		}
+		loadInitialHTML()
 	}, [editor, initialValue])
 
 	// Renders the editor instance using a React component.

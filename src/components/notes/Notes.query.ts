@@ -21,8 +21,12 @@ export function useNote(noteId: string) {
 }
 
 export function useUpdateNote(noteId: string) {
+	const queryClient = useQueryClient()
 	return useMutation({
 		mutationFn: (body: NotesRecord) => updateNote(noteId, body),
+		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: ['notes'] })
+		},
 	})
 }
 
