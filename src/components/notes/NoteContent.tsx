@@ -8,15 +8,14 @@ import { useNote, useUpdateNote } from './Notes.query'
 import { activeNoteAtom } from './notes.utils'
 import useAutosave from '@/lib/hooks/useAutosave'
 import { Check, Loader2 } from 'lucide-react'
+import NoteTitle from './NoteTitle'
 
 export default function NoteContent() {
 	const [activeNote, setActiveNote] = useAtom(activeNoteAtom)
 
-	const { mutate: updateNote, isPending } = useUpdateNote(activeNote)
+	const { mutate: updateNote, isPending, isSuccess } = useUpdateNote(activeNote)
 	const { data, isLoading: isNoteLoading, isFetching: isNoteFetching } = useNote(activeNote)
 	const [html, setHtml] = useState(data?.content)
-
-	console.log(html, data?.content, html === data?.content)
 
 	useAutosave(
 		() => {
@@ -24,7 +23,7 @@ export default function NoteContent() {
 				updateNoteContent()
 			}
 		},
-		10 * 1000,
+		5 * 1000,
 		[html, data?.content]
 	)
 
@@ -63,10 +62,10 @@ export default function NoteContent() {
 	return (
 		<div className="flex-1 overflow-auto relative">
 			<div className="flex justify-between p-4 sticky top-0 z-10 bg-white border-b">
-				<h1 className="text-xl font-bold">{data?.title}</h1>
+				<NoteTitle title={data?.title} />
 
 				<div className="flex items-center space-x-4">
-					{html === data?.content ? (
+					{isSuccess ? (
 						<div className="flex items-center gap-1 text-sm font-medium text-green-500">
 							<Check className="h-4 w-4 " /> Saved
 						</div>
