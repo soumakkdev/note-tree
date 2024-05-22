@@ -1,6 +1,6 @@
 import SideNav from '@/components/layout/SideNav'
-import NoteContent from '@/components/notes/NoteContent'
-import NotesList from '@/components/notes/NotesList'
+import NoteContent from '@/components/notes/editor/NoteContent'
+import NotesList from '@/components/notes/list/NotesList'
 
 export default function Home() {
 	return (

@@ -1,13 +1,13 @@
 import { NotesResponse } from '@/lib/pb-types'
 import { cn, formatDate } from '@/lib/utils'
 import { useAtom } from 'jotai'
-import { ContextMenu, ContextMenuContent, ContextMenuItem, ContextMenuTrigger } from '../ui/context-menu'
-import { activeNoteAtom } from './notes.utils'
+import { ContextMenu, ContextMenuContent, ContextMenuItem, ContextMenuTrigger } from '../../ui/context-menu'
+import { activeNoteAtom } from '../utils/notes.utils'
 import { Trash2 } from 'lucide-react'
-import Modal from '../widgets/Modal'
-import { useDeleteNote } from './Notes.query'
+import Modal from '../../widgets/Modal'
+import { useDeleteNote } from '../utils/Notes.query'
 import { useState } from 'react'
-import { Button } from '../ui/button'
+import { Button } from '../../ui/button'
 
 export default function NoteListItem({ note }: { note: NotesResponse }) {
 	const [activeNote, setActiveNote] = useAtom(activeNoteAtom)

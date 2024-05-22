@@ -1,7 +1,7 @@
 import { atom, useAtom } from 'jotai'
 import { useDebounce } from '@uidotdev/usehooks'
 
-export const activeNoteAtom = atom<string | null>(null)
+export const activeNoteAtom = atom<string>('')
 
 export const searchTermAtom = atom<string>('')
 

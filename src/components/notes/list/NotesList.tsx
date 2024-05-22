@@ -1,12 +1,12 @@
 'use client'
 import { useAtom } from 'jotai'
 import { PlusCircle, Search } from 'lucide-react'
-import { Input } from '../ui/input'
-import { Skeleton } from '../ui/skeleton'
-import { Tooltip } from '../ui/tooltip'
+import { Input } from '../../ui/input'
+import { Skeleton } from '../../ui/skeleton'
+import { Tooltip } from '../../ui/tooltip'
 import NoteListItem from './NoteListItem'
-import { useCreateNote, useNotes } from './Notes.query'
-import { activeNoteAtom, useNotesFilters } from './notes.utils'
+import { useCreateNote, useNotes } from '../utils/Notes.query'
+import { activeNoteAtom, useNotesFilters } from '../utils/notes.utils'
 
 export default function NotesList() {
 	const { mutate } = useCreateNote()

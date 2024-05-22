@@ -1,14 +1,14 @@
 'use client'
+import useAutosave from '@/lib/hooks/useAutosave'
 import { useAtom } from 'jotai'
+import { Check, Loader2 } from 'lucide-react'
 import { useState } from 'react'
 import { useHotkeys } from 'react-hotkeys-hook'
-import { Button } from '../ui/button'
+import Loader from '../../ui/loader'
 import NoteEditor from './NoteEditor'
-import { useNote, useUpdateNote } from './Notes.query'
-import { activeNoteAtom } from './notes.utils'
-import useAutosave from '@/lib/hooks/useAutosave'
-import { Check, Loader2 } from 'lucide-react'
 import NoteTitle from './NoteTitle'
+import { useNote, useUpdateNote } from '../utils/Notes.query'
+import { activeNoteAtom } from '../utils/notes.utils'
 
 export default function NoteContent() {
 	const [activeNote, setActiveNote] = useAtom(activeNoteAtom)
@@ -39,6 +39,17 @@ export default function NoteContent() {
 		)
 	}
 
+	function updateNoteTitle(title: string) {
+		updateNote(
+			{ title },
+			{
+				onError: (err) => {
+					console.log(err)
+				},
+			}
+		)
+	}
+
 	useHotkeys('mod+s', () => updateNoteContent(), {
 		preventDefault: true,
 		enableOnContentEditable: true,
@@ -49,20 +60,24 @@ export default function NoteContent() {
 			<div className="flex-1 grid place-content-center">
 				<div className="flex flex-col items-center justify-center">
 					<p className="text-xl font-medium text-muted-foreground">No note is open</p>
-					<Button variant="link">Create new (Ctrl + N)</Button>
+					{/* <Button variant="link">Create new (Ctrl + N)</Button> */}
 				</div>
 			</div>
 		)
 	}
 
 	if (isNoteLoading) {
-		return <p>Loading...</p>
+		return (
+			<div className="h-full w-full grid place-content-center">
+				<Loader className="h-8 w-8" />
+			</div>
+		)
 	}
 
 	return (
 		<div className="flex-1 overflow-auto relative">
 			<div className="flex justify-between p-4 sticky top-0 z-10 bg-white border-b">
-				<NoteTitle title={data?.title} />
+				<NoteTitle title={data?.title} onTitleIUpdate={updateNoteTitle} />
 
 				<div className="flex items-center space-x-4">
 					{isSuccess ? (

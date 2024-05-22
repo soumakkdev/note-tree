@@ -1,7 +1,7 @@
 import React from 'react'
 
 function useAutosave(callback: Function, delay = 1000, deps: string[] = []) {
-	const savedCallback = React.useRef() // to save the current "fresh" callback
+	const savedCallback = React.useRef<any>() // to save the current "fresh" callback
 
 	// keep callback ref up to date
 	React.useEffect(() => {
