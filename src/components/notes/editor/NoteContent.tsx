@@ -68,7 +68,7 @@ export default function NoteContent() {
 
 	if (isNoteLoading) {
 		return (
-			<div className="h-full w-full grid place-content-center">
+			<div className="flex-1 h-full w-full grid place-content-center">
 				<Loader className="h-8 w-8" />
 			</div>
 		)

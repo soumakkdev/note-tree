@@ -6,7 +6,7 @@ import QueryProvider from '@/lib/query/QueryProvider'
 const raleway = Raleway({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-	title: 'Notes',
+	title: 'Note Tree',
 	description: 'A simple notes app',
 }
 

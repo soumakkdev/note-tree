@@ -1,5 +1,7 @@
 This is a simple note taking app made with Next.js and BlockNote editor.
 
+![](https://github.com/soumakkdev/note-tree/blob/main/public/preview.png?raw=true)
+
 ## Features
 
 -   Slick user interface
