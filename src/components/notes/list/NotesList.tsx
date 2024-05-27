@@ -9,13 +9,13 @@ import { useCreateNote, useNotes } from '../utils/Notes.query'
 import { activeNoteAtom, useNotesFilters } from '../utils/notes.utils'
 
 export default function NotesList() {
-	const { mutate } = useCreateNote()
+	const createNoteMutation = useCreateNote()
 	const [activeNote, setActiveNote] = useAtom(activeNoteAtom)
 	const { data: notesList, isLoading } = useNotes()
 	const { handleSearch, searchTerm } = useNotesFilters()
 
 	function addNewNote() {
-		mutate(
+		createNoteMutation.mutate(
 			{ title: 'Untitled' },
 			{
 				onSuccess: (data) => {
@@ -56,7 +56,7 @@ export default function NotesList() {
 					</>
 				) : (
 					<>
-						{notesList?.items?.map((note) => (
+						{notesList?.map((note) => (
 							<NoteListItem key={note.id} note={note} />
 						))}
 					</>

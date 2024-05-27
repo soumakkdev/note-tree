@@ -1,8 +1,7 @@
+import QueryProvider from '@/lib/query/QueryProvider'
 import type { Metadata } from 'next'
 import { Raleway } from 'next/font/google'
 import './globals.css'
-import QueryProvider from '@/lib/query/QueryProvider'
-import { AuthProvider } from '@/lib/AuthContext'
 
 const raleway = Raleway({ subsets: ['latin'] })
 
@@ -19,9 +18,7 @@ export default function RootLayout({
 	return (
 		<html lang="en">
 			<body className={raleway.className}>
-				<QueryProvider>
-					<AuthProvider>{children}</AuthProvider>
-				</QueryProvider>
+				<QueryProvider>{children}</QueryProvider>
 			</body>
 		</html>
 	)

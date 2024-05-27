@@ -1,15 +1,15 @@
-import { NotesResponse } from '@/lib/pb-types'
 import { cn, formatDate } from '@/lib/utils'
+import { INote } from '@/types/note'
 import { useAtom } from 'jotai'
-import { ContextMenu, ContextMenuContent, ContextMenuItem, ContextMenuTrigger } from '../../ui/context-menu'
-import { activeNoteAtom } from '../utils/notes.utils'
 import { Trash2 } from 'lucide-react'
-import Modal from '../../widgets/Modal'
-import { useDeleteNote } from '../utils/Notes.query'
 import { useState } from 'react'
 import { Button } from '../../ui/button'
+import { ContextMenu, ContextMenuContent, ContextMenuItem, ContextMenuTrigger } from '../../ui/context-menu'
+import Modal from '../../widgets/Modal'
+import { useDeleteNote } from '../utils/Notes.query'
+import { activeNoteAtom } from '../utils/notes.utils'
 
-export default function NoteListItem({ note }: { note: NotesResponse }) {
+export default function NoteListItem({ note }: { note: INote }) {
 	const [activeNote, setActiveNote] = useAtom(activeNoteAtom)
 	const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
 	const { mutate: deleteNote } = useDeleteNote()
@@ -32,7 +32,7 @@ export default function NoteListItem({ note }: { note: NotesResponse }) {
 					onClick={() => setActiveNote(note.id)}
 				>
 					<p className="font-semibold mb-1">{note.title}</p>
-					<p className="text-xs text-muted-foreground">Last updated on {formatDate(note.updated)}</p>
+					<p className="text-xs text-muted-foreground">Last updated on {formatDate(note.updatedAt)}</p>
 				</div>
 			</ContextMenuTrigger>
 			<ContextMenuContent className="">

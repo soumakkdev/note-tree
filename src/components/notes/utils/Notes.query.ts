@@ -1,10 +1,10 @@
-import { ListResponse, NotesRecord, NotesResponse } from '@/lib/pb-types'
+import { INote, IUpdateNote } from '@/types/note'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { produce } from 'immer'
 import { useSetAtom } from 'jotai'
+import { isEmpty } from 'radash'
 import { createNote, deleteNote, getNote, getNotes, updateNote } from './notes.data'
 import { activeNoteAtom, useNotesFilters } from './notes.utils'
-import { produce } from 'immer'
-import { isEmpty } from 'radash'
 
 export function useNotes() {
 	const { searchQuery } = useNotesFilters()
@@ -25,12 +25,12 @@ export function useNote(noteId: string) {
 export function useUpdateNote(noteId: string) {
 	const queryClient = useQueryClient()
 	return useMutation({
-		mutationFn: (body: NotesRecord) => updateNote(noteId, body),
-		onSuccess: (data) => {
-			queryClient.setQueryData(['notes', 'all'], (prev: ListResponse<NotesResponse[]>) => {
+		mutationFn: (body: IUpdateNote) => updateNote(noteId, body),
+		onSuccess: (data: INote) => {
+			queryClient.setQueryData(['notes', 'all'], (prev: INote[]) => {
 				return produce(prev, (draft) => {
-					const idx = draft.items.findIndex((note) => note.id === noteId)
-					draft.items.splice(idx, 1, data)
+					const idx = draft.findIndex((note) => note.id === noteId)
+					draft.splice(idx, 1, data)
 				})
 			})
 		},
@@ -40,7 +40,7 @@ export function useUpdateNote(noteId: string) {
 export function useCreateNote() {
 	const queryClient = useQueryClient()
 	return useMutation({
-		mutationFn: (body: NotesRecord) => createNote(body),
+		mutationFn: (body: IUpdateNote) => createNote(body),
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: ['notes', 'all'] })
 		},

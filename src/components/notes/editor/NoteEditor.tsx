@@ -13,9 +13,12 @@ export default function NoteEditor({ initialValue, onChange }: { initialValue: s
 
 	useEffect(() => {
 		async function loadInitialHTML() {
-			const blocks = await editor.tryParseHTMLToBlocks(initialValue)
-			editor.replaceBlocks(editor.document, blocks)
+			if (editor && initialValue) {
+				const blocks = await editor?.tryParseHTMLToBlocks(initialValue)
+				editor.replaceBlocks(editor.document, blocks)
+			}
 		}
+
 		loadInitialHTML()
 	}, [editor, initialValue])
 
