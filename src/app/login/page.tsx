@@ -76,7 +76,7 @@ export default function Login({ searchParams }: { searchParams: { message: strin
 					</div>
 
 					<div>
-						<SubmitButton formAction={signIn} className="w-full" pendingText="Signing In...">
+						<SubmitButton formAction={signIn} className="w-full">
 							Sign In
 						</SubmitButton>
 					</div>

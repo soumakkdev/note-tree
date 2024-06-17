@@ -5,10 +5,10 @@ import { Check, Loader2 } from 'lucide-react'
 import { useState } from 'react'
 import { useHotkeys } from 'react-hotkeys-hook'
 import Loader from '../../ui/loader'
-import NoteEditor from './NoteEditor'
-import NoteTitle from './NoteTitle'
 import { useNote, useUpdateNote } from '../utils/Notes.query'
 import { activeNoteAtom } from '../utils/notes.utils'
+import NoteEditor from './NoteEditor'
+import NoteTitle from './NoteTitle'
 
 export default function NoteContent() {
 	const [activeNote, setActiveNote] = useAtom(activeNoteAtom)

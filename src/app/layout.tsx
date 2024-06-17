@@ -1,9 +1,9 @@
 import QueryProvider from '@/lib/query/QueryProvider'
 import type { Metadata } from 'next'
-import { Raleway } from 'next/font/google'
+import { Inter } from 'next/font/google'
 import './globals.css'
 
-const raleway = Raleway({ subsets: ['latin'] })
+const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
 	title: 'Note Tree',
@@ -17,7 +17,7 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang="en">
-			<body className={raleway.className}>
+			<body className={inter.className}>
 				<QueryProvider>{children}</QueryProvider>
 			</body>
 		</html>

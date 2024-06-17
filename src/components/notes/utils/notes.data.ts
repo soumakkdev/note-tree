@@ -1,6 +1,5 @@
 import { createClient } from '@/lib/supabase/client'
 import { INote, IUpdateNote } from '@/types/note'
-import axios from 'axios'
 import { formatNoteFromDB } from './notes.utils'
 
 export async function getNotes({ searchQuery }: { searchQuery?: string }) {
@@ -12,8 +11,15 @@ export async function getNotes({ searchQuery }: { searchQuery?: string }) {
 	// }
 
 	const supabase = createClient()
-	let { data, error } = await supabase.from('notes').select('*')
+	const {
+		data: { user },
+		error: userError,
+	} = await supabase?.auth?.getUser()
+	if (userError) {
+		throw new Error(userError.message)
+	}
 
+	let { data, error } = await supabase.from('notes').select('*')
 	if (error) {
 		throw new Error(error.message)
 	}
@@ -35,7 +41,15 @@ export async function getNote(noteId: string) {
 
 export async function updateNote(noteId: string, body: IUpdateNote) {
 	const supabase = createClient()
-	const { data, error } = await supabase.from('notes').update(body).eq('id', noteId).select()
+	const {
+		data: { user },
+	} = await supabase?.auth?.getUser()
+
+	const { data, error } = await supabase
+		.from('notes')
+		.update({ ...body, user_id: user?.id })
+		.eq('id', noteId)
+		.select()
 
 	if (error) {
 		throw new Error(error.message)
@@ -44,9 +58,16 @@ export async function updateNote(noteId: string, body: IUpdateNote) {
 	return formatNoteFromDB(data[0])
 }
 
-export async function createNote(body: any) {
+export async function createNote(body: IUpdateNote) {
 	const supabase = createClient()
-	const { data, error } = await supabase.from('notes').insert(body).select()
+	const {
+		data: { user },
+	} = await supabase?.auth?.getUser()
+
+	const { data, error } = await supabase
+		.from('notes')
+		.insert({ ...body, user_id: user?.id })
+		.select()
 
 	if (error) {
 		throw new Error(error.message)

@@ -24,6 +24,7 @@ export function useNote(noteId: string) {
 
 export function useUpdateNote(noteId: string) {
 	const queryClient = useQueryClient()
+
 	return useMutation({
 		mutationFn: (body: IUpdateNote) => updateNote(noteId, body),
 		onSuccess: (data: INote) => {
@@ -39,6 +40,7 @@ export function useUpdateNote(noteId: string) {
 
 export function useCreateNote() {
 	const queryClient = useQueryClient()
+
 	return useMutation({
 		mutationFn: (body: IUpdateNote) => createNote(body),
 		onSuccess: () => {

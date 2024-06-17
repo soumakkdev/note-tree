@@ -4,9 +4,9 @@ import { PlusCircle, Search } from 'lucide-react'
 import { Input } from '../../ui/input'
 import { Skeleton } from '../../ui/skeleton'
 import { Tooltip } from '../../ui/tooltip'
-import NoteListItem from './NoteListItem'
 import { useCreateNote, useNotes } from '../utils/Notes.query'
 import { activeNoteAtom, useNotesFilters } from '../utils/notes.utils'
+import NoteListItem from './NoteListItem'
 
 export default function NotesList() {
 	const createNoteMutation = useCreateNote()
