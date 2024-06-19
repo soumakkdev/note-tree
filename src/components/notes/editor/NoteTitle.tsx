@@ -18,7 +18,7 @@ export default function NoteTitle({ title, onTitleIUpdate }: { title: string; on
 
 	return (
 		<div>
-			<Input onBlur={handleBlur} value={text} onChange={(e) => setText(e.target.value)} className="text-xl font-bold outline-none border-0" />
+			<Input onBlur={handleBlur} value={text} onChange={(e) => setText(e.target.value)} className="h-9 text-lg font-bold outline-none border-0" />
 		</div>
 	)
 }

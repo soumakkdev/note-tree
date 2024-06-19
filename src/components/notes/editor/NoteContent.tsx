@@ -1,8 +1,8 @@
 'use client'
-import useAutosave from '@/lib/hooks/useAutosave'
 import { useAtom } from 'jotai'
 import { Check, Loader2 } from 'lucide-react'
-import { useState } from 'react'
+import { isEqual } from 'radash'
+import { useEffect, useRef, useState } from 'react'
 import { useHotkeys } from 'react-hotkeys-hook'
 import Loader from '../../ui/loader'
 import { useNote, useUpdateNote } from '../utils/Notes.query'
@@ -17,15 +17,21 @@ export default function NoteContent() {
 	const { data, isLoading: isNoteLoading, isFetching: isNoteFetching } = useNote(activeNote)
 	const [html, setHtml] = useState(data?.content)
 
-	useAutosave(
-		() => {
-			if (html !== data?.content) {
+	const intervalRef = useRef(null)
+	const initialContent = useRef(html)
+
+	useEffect(() => {
+		intervalRef.current = setInterval(() => {
+			if (!isEqual(initialContent.current, html)) {
 				updateNoteContent()
+				initialContent.current = html
 			}
-		},
-		5 * 1000,
-		[html, data?.content]
-	)
+		}, 5000)
+
+		return () => {
+			clearInterval(intervalRef.current)
+		}
+	}, [html])
 
 	function updateNoteContent() {
 		console.log('saving...')
@@ -76,7 +82,7 @@ export default function NoteContent() {
 
 	return (
 		<div className="flex-1 overflow-auto relative">
-			<div className="flex justify-between p-4 sticky top-0 z-10 bg-white border-b">
+			<div className="flex justify-between px-4 py-2 sticky top-0 z-50 bg-background border-b">
 				<NoteTitle title={data?.title} onTitleIUpdate={updateNoteTitle} />
 
 				<div className="flex items-center space-x-4">

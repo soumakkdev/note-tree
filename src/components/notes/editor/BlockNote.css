@@ -1,0 +1,12 @@
+/* Base theme */
+.bn-container[data-custom-theme][data-color-scheme] {
+}
+
+/* Changes for dark mode */
+.bn-container[data-custom-theme][data-color-scheme='dark'] {
+	--bn-colors-editor-background: hsl(0 0% 8%);
+}
+
+.bn-container > div:has(.bn-side-menu) {
+	z-index: 10 !important;
+}

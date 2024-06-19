@@ -26,13 +26,13 @@ export default function NoteListItem({ note }: { note: INote }) {
 		<ContextMenu>
 			<ContextMenuTrigger>
 				<div
-					className={cn('p-4 border border-transparent cursor-pointer rounded-xl hover:border-border hover:bg-muted', {
+					className={cn('px-3 py-1.5 border border-transparent cursor-pointer rounded-lg hover:border-border hover:bg-muted', {
 						'!bg-primary-surface !border-primary ': activeNote === note.id,
 					})}
 					onClick={() => setActiveNote(note.id)}
 				>
-					<p className="font-semibold mb-1">{note.title}</p>
-					<p className="text-xs text-muted-foreground">Last updated on {formatDate(note.updatedAt)}</p>
+					<p className="font-semibold text-sm">{note.title}</p>
+					{/* <p className="text-xs text-muted-foreground">Last updated on {formatDate(note.updatedAt)}</p> */}
 				</div>
 			</ContextMenuTrigger>
 			<ContextMenuContent className="">

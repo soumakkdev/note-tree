@@ -29,13 +29,13 @@
 	}
 
 	.dark {
-		--background: hsl(0 0% 3.9%);
+		--background: hsl(0 0% 8%);
 		--foreground: hsl(0 0% 98%);
-		--card: hsl(0 0% 3.9%);
+		--card: hsl(0 0% 8%);
 		--card-foreground: hsl(0 0% 98%);
-		--popover: hsl(0 0% 3.9%);
+		--popover: hsl(0 0% 8%);
 		--popover-foreground: hsl(0 0% 98%);
-		--primary: hsl(0 0% 98%);
+		--primary: #1d71ef;
 		--primary-foreground: hsl(0 0% 9%);
 		--primary-surface: #292929;
 		--secondary: hsl(0 0% 14.9%);
